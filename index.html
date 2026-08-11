@@ -13,39 +13,54 @@
   <body>
     <header class="site-header">
       <nav class="container nav" aria-label="Navegación principal">
-        <a class="brand" href="./">mauro<span>.</span></a>
-        <a href="#articulos">Artículos</a>
+        <a class="brand" href="./" aria-label="Inicio de Mauro">
+          <span class="brand-mark">M</span>
+          <span>mauro.</span>
+        </a>
+        <div class="nav-links">
+          <a href="#articulos">Notas</a>
+          <a class="nav-cta" href="#articulos">Explorar <span aria-hidden="true">↗</span></a>
+        </div>
       </nav>
     </header>
 
     <main>
       <section class="hero container">
-        <p class="eyebrow">BLOG PERSONAL</p>
-        <h1>Ideas que merecen quedarse.</h1>
+        <div class="hero-topline">
+          <p class="eyebrow">DIARIO DIGITAL · 2026</p>
+          <span class="status"><span></span> Escribiendo</span>
+        </div>
+        <h1>Ideas para<br /><em>hacer mejor.</em></h1>
         <p class="intro">
-          Notas sobre tecnología, aprendizaje y los proyectos que construyo por el camino.
+          Un archivo personal sobre tecnología, aprendizaje y las cosas que construyo por el camino.
         </p>
+        <a class="hero-link" href="#articulos">Ver las notas <span aria-hidden="true">↓</span></a>
       </section>
 
       <section id="articulos" class="container posts" aria-labelledby="posts-title">
         <div class="section-heading">
-          <p class="eyebrow">ÚLTIMOS ARTÍCULOS</p>
-          <h2 id="posts-title">Para leer con calma</h2>
+          <p class="eyebrow">SELECCIÓN RECIENTE</p>
+          <h2 id="posts-title">Últimas notas <span>(01)</span></h2>
         </div>
         <article class="post-card">
-          <p class="post-meta">11 de agosto de 2026 · 3 min de lectura</p>
-          <h3><a href="posts/bienvenido.html">Bienvenido a mi nuevo blog</a></h3>
-          <p>
-            Este es el primer artículo. Un lugar sencillo para compartir ideas, aprendizajes y proyectos.
-          </p>
-          <a class="read-more" href="posts/bienvenido.html">Leer artículo <span aria-hidden="true">→</span></a>
+          <a class="post-card-link" href="posts/bienvenido.html">
+            <div class="post-number">01</div>
+            <div class="post-content">
+              <p class="post-meta">11 AGO 2026 · 3 MIN</p>
+              <h3>Bienvenido a mi nuevo blog</h3>
+              <p>
+                Un lugar sencillo para compartir ideas, aprendizajes y proyectos.
+              </p>
+            </div>
+            <span class="post-arrow" aria-hidden="true">↗</span>
+          </a>
         </article>
       </section>
     </main>
 
     <footer class="site-footer">
       <div class="container">
-        <p>Hecho con HTML y CSS. Publicado en GitHub Pages.</p>
+        <p>© 2026 Mauro <span>·</span> Hecho con calma en internet.</p>
       </div>
     </footer>
   </body>
