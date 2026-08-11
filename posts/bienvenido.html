@@ -6,29 +6,36 @@
     <meta name="description" content="Bienvenido al blog de Mauro." />
     <title>Bienvenido a mi nuevo blog · Mauro</title>
     <link rel="stylesheet" href="../assets/css/styles.css" />
+    <script src="../assets/js/main.js" defer></script>
   </head>
-  <body>
+  <body class="article-page">
+    <div class="noise" aria-hidden="true"></div>
     <header class="site-header">
       <nav class="container nav" aria-label="Navegación principal">
         <a class="brand" href="../" aria-label="Inicio de Mauro">
-          <span class="brand-mark">M</span>
-          <span>mauro.</span>
+          <span class="brand-mark">m.</span>
+          <span>Mauro</span>
         </a>
         <div class="nav-links">
-          <a href="../#articulos">Notas</a>
-          <a class="nav-cta" href="../#articulos">Explorar <span aria-hidden="true">↗</span></a>
+          <a href="../#articulos">Archivo</a>
+          <a class="nav-cta" href="../#articulos">Explorar <span aria-hidden="true">↓</span></a>
         </div>
       </nav>
     </header>
 
     <main class="container article">
-      <a class="back-link" href="../">← Volver al inicio</a>
-      <div class="article-meta">
-        <p class="eyebrow">11 AGOSTO 2026</p>
-        <p>3 min de lectura</p>
+      <a class="back-link magnetic" href="../">← Volver al inicio</a>
+      <div class="article-hero reveal">
+        <div class="article-meta">
+          <p class="eyebrow"><span class="live-dot"></span> 11 AGOSTO 2026</p>
+          <p>3 min de lectura</p>
+        </div>
+        <h1>Bienvenido a mi nuevo blog</h1>
       </div>
-      <h1>Bienvenido a mi nuevo blog</h1>
-      <div class="article-content">
+      <div class="article-content reveal">
+        <p class="lead">
+          Un lugar para detener las ideas antes de que desaparezcan entre conversaciones y pestañas abiertas.
+        </p>
         <p>
           Este espacio nace para dejar por escrito las ideas que normalmente se pierden entre notas rápidas,
           conversaciones y pestañas abiertas.
@@ -41,7 +48,11 @@
 
     <footer class="site-footer">
       <div class="container">
-        <p>© 2026 Mauro <span>·</span> Hecho con calma en internet.</p>
+        <div>
+          <a class="brand" href="../"><span class="brand-mark">m.</span><span>Mauro</span></a>
+          <p>Un espacio para las ideas que no caben en una pestaña.</p>
+        </div>
+        <p>© 2026 · Hecho con curiosidad.</p>
       </div>
     </footer>
   </body>
