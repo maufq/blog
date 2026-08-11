@@ -9,50 +9,73 @@
     />
     <title>Blog de Mauro</title>
     <link rel="stylesheet" href="assets/css/styles.css" />
+    <script src="assets/js/main.js" defer></script>
   </head>
-  <body>
+  <body class="home-page">
+    <div class="noise" aria-hidden="true"></div>
     <header class="site-header">
       <nav class="container nav" aria-label="Navegación principal">
         <a class="brand" href="./" aria-label="Inicio de Mauro">
-          <span class="brand-mark">M</span>
-          <span>mauro.</span>
+          <span class="brand-mark">m.</span>
+          <span>Mauro</span>
         </a>
         <div class="nav-links">
-          <a href="#articulos">Notas</a>
-          <a class="nav-cta" href="#articulos">Explorar <span aria-hidden="true">↗</span></a>
+          <a href="#articulos">Archivo</a>
+          <a class="nav-cta" href="#articulos">Explorar <span aria-hidden="true">↓</span></a>
         </div>
       </nav>
     </header>
 
     <main>
       <section class="hero container">
-        <div class="hero-topline">
-          <p class="eyebrow">DIARIO DIGITAL · 2026</p>
-          <span class="status"><span></span> Escribiendo</span>
+        <div class="hero-copy reveal">
+          <p class="eyebrow"><span class="live-dot"></span> DIARIO DIGITAL · 2026</p>
+          <h1>Construir,<br /><span>pensar</span> y compartir.</h1>
+          <p class="intro">
+            Notas sobre tecnología, curiosidad y los proyectos que van dejando huella.
+          </p>
+          <a class="hero-link magnetic" href="#articulos">Descubrir notas <span aria-hidden="true">↘</span></a>
         </div>
-        <h1>Ideas para<br /><em>hacer mejor.</em></h1>
-        <p class="intro">
-          Un archivo personal sobre tecnología, aprendizaje y las cosas que construyo por el camino.
-        </p>
-        <a class="hero-link" href="#articulos">Ver las notas <span aria-hidden="true">↓</span></a>
+        <div class="hero-art reveal" aria-hidden="true">
+          <div class="orb orb-one"></div>
+          <div class="orb orb-two"></div>
+          <div class="orb orb-three"></div>
+          <div class="art-label art-label-top">CREATIVE<br />THINKING</div>
+          <div class="art-label art-label-bottom">VOL. 01</div>
+          <div class="orbit"></div>
+        </div>
       </section>
 
-      <section id="articulos" class="container posts" aria-labelledby="posts-title">
-        <div class="section-heading">
-          <p class="eyebrow">SELECCIÓN RECIENTE</p>
-          <h2 id="posts-title">Últimas notas <span>(01)</span></h2>
+      <div class="ticker" aria-label="Temas del blog">
+        <div class="ticker-track">
+          <span>TECNOLOGÍA</span><i>✦</i><span>DISEÑO</span><i>✦</i><span>APRENDIZAJE</span><i>✦</i><span>PROYECTOS</span><i>✦</i>
+          <span>TECNOLOGÍA</span><i>✦</i><span>DISEÑO</span><i>✦</i><span>APRENDIZAJE</span><i>✦</i><span>PROYECTOS</span><i>✦</i>
         </div>
-        <article class="post-card">
-          <a class="post-card-link" href="posts/bienvenido.html">
-            <div class="post-number">01</div>
+      </div>
+
+      <section id="articulos" class="container posts" aria-labelledby="posts-title">
+        <div class="section-heading reveal">
+          <div>
+            <p class="eyebrow">ARCHIVO SELECCIONADO</p>
+            <h2 id="posts-title">Lecturas <em>recientes</em></h2>
+          </div>
+          <span class="article-count">01 / 01</span>
+        </div>
+        <article class="post-card reveal">
+          <a class="post-card-link magnetic" href="posts/bienvenido.html">
+            <div class="post-visual">
+              <span>01</span>
+              <div class="mini-orb"></div>
+              <p>PRIMERA<br />ENTRADA</p>
+            </div>
             <div class="post-content">
               <p class="post-meta">11 AGO 2026 · 3 MIN</p>
               <h3>Bienvenido a mi nuevo blog</h3>
               <p>
                 Un lugar sencillo para compartir ideas, aprendizajes y proyectos.
               </p>
+              <span class="read-more">Leer la nota <b aria-hidden="true">→</b></span>
             </div>
-            <span class="post-arrow" aria-hidden="true">↗</span>
           </a>
         </article>
       </section>
@@ -60,7 +83,11 @@
 
     <footer class="site-footer">
       <div class="container">
-        <p>© 2026 Mauro <span>·</span> Hecho con calma en internet.</p>
+        <div>
+          <a class="brand" href="./"><span class="brand-mark">m.</span><span>Mauro</span></a>
+          <p>Un espacio para las ideas que no caben en una pestaña.</p>
+        </div>
+        <p>© 2026 · Hecho con curiosidad.</p>
       </div>
     </footer>
   </body>
