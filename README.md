@@ -57,7 +57,7 @@ Este comando:
 
 ### Configurar despliegue automático con GitHub Actions
 
-Si prefieres automatizar, puedes crear un workflow similar al `Jenkinsfile` anterior. Crea el archivo `.github/workflows/deploy.yml`:
+Si prefieres automatizar, puedes crear un workflow que haga este despliegue automáticamente. Crea el archivo `.github/workflows/deploy.yml`:
 
 ```yaml
 name: Deploy to GitHub Pages
