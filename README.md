@@ -14,22 +14,17 @@ Tras el primer despliegue, estará disponible en:
 1. Copia `posts/bienvenido.html` y ponle un nombre URL amigable, por ejemplo `posts/mi-articulo.html`.
 2. Cambia su título, fecha, descripción y contenido.
 3. Añade una tarjeta que apunte al nuevo archivo dentro de la sección `#articulos` de `index.html`.
-4. Haz *commit* y *push* a `main`. Jenkins publicará automáticamente los archivos estáticos.
+4. Haz *commit* y *push* a `main`. Los cambios se publicarán automáticamente en GitHub Pages.
 
 Para editar la portada, modifica `index.html`. Los estilos compartidos están en `assets/css/styles.css`.
 
-## Configurar Jenkins
+## Cómo funciona la publicación
 
-1. En Jenkins crea un elemento **Pipeline** o **Multibranch Pipeline** conectado a este repositorio.
-2. Configura `Jenkinsfile` como *Script Path* y habilita la construcción de la rama `main`.
-3. Crea una credencial de tipo **Secret text** con un token de GitHub que tenga permiso de escritura sobre `maufq/blog`; asígnale exactamente el ID `github-token`.
-4. Activa un webhook de GitHub hacia Jenkins para ejecutar el pipeline con cada *push* a `main`, o usa el sondeo periódico si no tienes una URL pública de Jenkins.
-
-El pipeline comprueba que los archivos del sitio existan y después publica únicamente `index.html`, `assets/` y `posts/` en la rama `gh-pages`. GitHub Pages sirve esa rama; `.nojekyll` evita que Jekyll descarte archivos o rutas que puedan añadirse más adelante.
+GitHub Pages publica automáticamente los archivos de la rama `gh-pages`. La rama se actualiza automáticamente con cada *push* a `main`, y solo incluye los archivos necesarios: `index.html`, `assets/` y `posts/`. El archivo `.nojekyll` evita que Jekyll descarte archivos o rutas que puedan añadirse más adelante.
 
 ## Publicación manual
 
-Si todavía no has configurado Jenkins, puedes crear la rama de publicación desde un clon local:
+Si necesitas crear o restaurar la rama de publicación manualmente desde un clon local:
 
 ```bash
 git checkout --orphan gh-pages
