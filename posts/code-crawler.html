@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Code Crawler recorre repositorios y los dibuja como un grafo: qué llama a qué, qué se rompe si cambias algo y dónde hay riesgos." />
+    <title>El código, visto como un grafo · Mauro</title>
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+    <script src="../assets/js/main.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="container nav" aria-label="Navegación principal">
+        <a class="brand" href="../"><span class="brand-mark" aria-hidden="true">m</span><span>Mauro</span></a>
+        <div class="nav-links"><a href="../#articulos">Artículos</a><a class="nav-button" href="../#suscribete">Contacto <span aria-hidden="true">↗</span></a></div>
+      </nav>
+    </header>
+    <main class="article container">
+      <a class="back-link" href="../">← Todos los artículos</a>
+      <header class="article-header reveal">
+        <p class="post-meta">10 OCT 2026 · 5 MIN</p>
+        <h1>El código, visto como un grafo</h1>
+        <p class="article-summary">Code Crawler recorre un repositorio y lo convierte en un mapa: qué llama a qué, qué se rompe si cambias algo y dónde hay riesgos.</p>
+      </header>
+      <div class="article-body">
+        <p>Abrir un repositorio que no conoces —o uno tuyo de hace un año— empieza casi siempre igual: buscas una palabra, abres el fichero equivocado y vuelves a buscar. <code>grep</code> responde muy bien a «¿dónde aparece este texto?», pero no a las preguntas que importan antes de tocar nada: ¿quién llama a esta función?, ¿qué se rompe si la cambio?, ¿cómo se llega de aquí hasta allí?</p>
+        <p>Code Crawler es un intento de responderlas mirando. Es una herramienta local que recorre una carpeta o un repositorio git, lo indexa y lo dibuja como un grafo con el que se puede trabajar.</p>
+
+        <figure class="article-figure reveal">
+          <img src="../assets/img/code-crawler/grafo.png" width="1440" height="900" alt="Grafo de nodos de colores unidos por líneas, con una barra de filtros arriba y una leyenda de módulos abajo" />
+          <figcaption>El grafo del propio Code Crawler: 241 nodos y 797 relaciones.</figcaption>
+        </figure>
+
+        <h2>Qué hace</h2>
+        <ul>
+          <li><strong>Grafo interactivo</strong> de símbolos y ficheros, con zoom, filtro y aislamiento por módulo.</li>
+          <li><strong>Impacto</strong>: todo lo que depende de un símbolo, ordenado por distancia.</li>
+          <li><strong>Camino</strong> más corto entre dos símbolos.</li>
+          <li><strong>Búsqueda</strong> en cuatro modos: pregunta en lenguaje natural, símbolos, referencias y texto literal.</li>
+          <li><strong>Seguridad</strong>: secretos en el código, siempre enmascarados, y patrones de riesgo en Terraform, Python, shell, JavaScript y Dockerfile.</li>
+          <li><strong>Métricas</strong> por fichero: líneas, comentarios y complejidad aproximada.</li>
+        </ul>
+        <p>Todo corre en tu máquina: una interfaz web que solo escucha en <code>localhost</code>, una línea de comandos y una imagen Docker.</p>
+
+        <h2>Dos motores, porque uno no bastaba</h2>
+        <p>El trabajo fino lo hace <a href="https://github.com/denfry/codebase-index">codebase-index</a>, un índice basado en Tree-sitter pensado para agentes de IA. Extrae símbolos, llamadas e imports, y sabe responder a «qué impacto tiene esto» o «qué camino une estos dos símbolos». Se habla con él por MCP, el protocolo con el que los asistentes llaman a herramientas. Aquí el cliente no es un asistente sino una interfaz gráfica: cada clic en <em>Impacto</em> es una llamada MCP.</p>
+        <p>Pero ese grafo de símbolos existe para doce lenguajes, y hay mucho código que vive fuera de ellos: scripts de shell, Terraform, pipelines. Para eso hay un segundo motor, bastante más modesto, hecho con expresiones regulares. Resuelve los <code>source</code> de un script o los módulos de Terraform a ficheros del proyecto, calcula métricas y busca secretos. Sus relaciones entran en el mismo grafo marcadas como <em>inferidas</em>, para que se distinga lo que el código dice de lo que la herramienta supone.</p>
+
+        <h2>Leer el grafo</h2>
+        <p>Tres convenciones, heredadas del grafo que genera codebase-index:</p>
+        <ul>
+          <li>El <strong>color</strong> es el módulo: grupos de nodos muy conectados entre sí, detectados automáticamente.</li>
+          <li>El <strong>tamaño</strong> es la conectividad.</li>
+          <li>El <strong>trazo</strong> dice cuánta confianza merece una relación: continuo si está literalmente en el código, discontinuo si se ha deducido y punteado en rojo si es ambigua.</li>
+        </ul>
+        <p>Al seleccionar un nodo se abre una ficha con su firma, quién lo usa y qué usa. Desde ahí, <em>Impacto</em> resalta todo lo que se vería afectado por un cambio.</p>
+
+        <figure class="article-figure reveal">
+          <img src="../assets/img/code-crawler/grafo-impacto.png" width="1440" height="900" loading="lazy" alt="Tres nodos resaltados y unidos en cadena; a la derecha, un panel con la lista de símbolos afectados" />
+          <figcaption>Impacto de cambiar <code>tax</code>: lo usa <code>checkout</code>, y a este lo llama <code>main</code>.</figcaption>
+        </figure>
+
+        <p>Y <em>Camino a…</em> traza la ruta hasta cualquier otro nodo.</p>
+
+        <figure class="article-figure reveal">
+          <img src="../assets/img/code-crawler/grafo-camino.png" width="1440" height="900" loading="lazy" alt="Cuatro nodos resaltados formando un camino; a la derecha, la lista numerada de los pasos" />
+          <figcaption>El camino más corto de <code>main</code> a <code>_format</code>, en tres saltos.</figcaption>
+        </figure>
+
+        <h2>Lo que aprendí por el camino</h2>
+
+        <h3>Que funcione no es que se vea bien</h3>
+        <p>Las pruebas unitarias pasaban todas y la herramienta tenía fallos que solo aparecieron al manejarla con un navegador de verdad: un aviso de error que nunca llegaba a mostrarse, una página que quedaba a medio construir si un proceso tardaba en arrancar, resultados de dos búsquedas mezclados al teclear deprisa. Los encontró una prueba de extremo a extremo que mueve el ratón y escribe sobre Chrome: unas ochenta comprobaciones.</p>
+        <p>Con los diagramas de la documentación pasó lo mismo. Eran sintácticamente correctos, y GitHub los habría mostrado al 44 % de su tamaño, con letra de siete píxeles. «Válido» y «legible» son dos comprobaciones distintas.</p>
+
+        <h3>Una herramienta que mira no debería tocar</h3>
+        <p>Por defecto, codebase-index guarda su índice dentro del repositorio que analiza. Redirigirlo fuera permite montar el código en solo lectura dentro del contenedor, y eso convierte «no modifica tus repositorios» de promesa en garantía del sistema operativo.</p>
+
+        <h3>«Local» tiene letra pequeña</h3>
+        <p>Los parsers de Tree-sitter no vienen dentro del paquete: se descargan la primera vez que hacen falta. No es un problema, pero conviene saberlo. En la imagen Docker van ya incluidos, de modo que el contenedor puede escanear sin red.</p>
+
+        <h3>Un repositorio ajeno es entrada no fiable</h3>
+        <p>Nombres de fichero incluidos. La prueba escanea un proyecto con un fichero llamado <code>&lt;img src=x onerror=…&gt;.py</code> y comprueba que nada de eso se ejecuta en el navegador.</p>
+
+        <figure class="article-figure reveal">
+          <img src="../assets/img/code-crawler/seguridad.png" width="1440" height="900" loading="lazy" alt="Lista de hallazgos de seguridad con su severidad, fichero y línea; la clave detectada aparece enmascarada" />
+          <figcaption>Hallazgos de seguridad sobre un proyecto de prueba. La clave nunca se muestra entera.</figcaption>
+        </figure>
+
+        <h2>Cómo se hizo</h2>
+        <p>Lo construí en una sesión larga con Claude Code, un asistente de programación. Yo marcaba la dirección —qué interfaz, qué motor, que corriera en Docker, que quedara documentado— y él escribía, probaba y corregía. Este artículo también salió de esa sesión.</p>
+        <p>Lo cuento porque cambia qué parte del trabajo pesa. Escribir el código fue lo de menos; lo que marcó la diferencia fue exigir que cada «funciona» y cada «se ve bien» estuvieran comprobados y no supuestos.</p>
+
+        <h2>En qué punto está</h2>
+        <p>El repositorio es privado por ahora. Tiene 62 pruebas automáticas, la prueba de extremo a extremo y documentación de cada pieza. Y limitaciones que conviene decir: el grafo de símbolos solo existe para esos doce lenguajes, los hallazgos de seguridad son heurísticos —una primera pasada, no una auditoría— y el resumen de ficheros con IA todavía no está probado contra la API real.</p>
+      </div>
+    </main>
+    <footer class="site-footer"><div class="container"><a class="brand" href="../"><span class="brand-mark" aria-hidden="true">m</span><span>Mauro</span></a><p>© 2026 · Hecho con HTML, CSS y curiosidad.</p></div></footer>
+  </body>
+</html>
